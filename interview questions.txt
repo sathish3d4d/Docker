@@ -30,9 +30,9 @@ Docker is quite well documented.
 
 What are the networks that are available by default?
 
-bridge	It is the default network all containers connect to if you donít specify the network yourself
+bridge	It is the default network all containers connect to if you don‚Äôt specify the network yourself
 none	connects to a container-specific network stack that lacks a network interface
-host	connects to the hostís network stack - there will be no isolation between the host machine and the 
+host	connects to the host‚Äôs network stack - there will be no isolation between the host machine and the 
 container, as far as network is concerned
  
 
@@ -163,40 +163,40 @@ I caught up with the VP of Services for Docker, James Turnbull, who'll be runnin
 
 Why do my services take 10 seconds to recreate or stop?
 
-Compose stop attempts to stop a container by sending a SIGTERM. It then waits for a default timeout of 10 seconds. After the timeout, a SIGKILL is sent to the container to kill it forcefully. If you are waiting for this timeout, it means that your containers arenít shutting down when they receive the SIGTERM signal.
+Compose stop attempts to stop a container by sending a SIGTERM. It then waits for a default timeout of 10 seconds. After the timeout, a SIGKILL is sent to the container to kill it forcefully. If you are waiting for this timeout, it means that your containers aren‚Äôt shutting down when they receive the SIGTERM signal.
 
 There has already been a lot written about this problem of processes handling signals in containers.
 
 To fix this issue, try the following:
 
-Make sure youíre using the JSON form of CMD and ENTRYPOINT in your Dockerfile.
+Make sure you‚Äôre using the JSON form of CMD and ENTRYPOINT in your Dockerfile.
 
-For example use ["program", "arg1", "arg2"] not"program arg1 arg2". Using the string form causes Docker to run your process using bash which doesnít handle signals properly. Compose always uses the JSON form, so donít worry if you override the command or entrypoint in your Compose file.
+For example use ["program", "arg1", "arg2"] not"program arg1 arg2". Using the string form causes Docker to run your process using bash which doesn‚Äôt handle signals properly. Compose always uses the JSON form, so don‚Äôt worry if you override the command or entrypoint in your Compose file.
 
--If you are able, modify the application that youíre running to add an explicit signal handler for SIGTERM.
+-If you are able, modify the application that you‚Äôre running to add an explicit signal handler for SIGTERM.
 
 -Set the stop_signal to a signal which the application knows how to handle:
 
 -web: build: . stop_signal: SIGINT
 
--If you canít modify the application, wrap the application in a lightweight init system (like s6) or a signal proxy (like dumb-init or tini). Either of these wrappers take care of handling SIGTERM properly.
+-If you can‚Äôt modify the application, wrap the application in a lightweight init system (like s6) or a signal proxy (like dumb-init or tini). Either of these wrappers take care of handling SIGTERM properly.
 
 How do I run multiple copies of a Compose file on the same host?
 
-Compose uses the project name to create unique identifiers for all of a projectís containers and other resources. To run multiple copies of a project, set a custom project name using the -p command line option or theCOMPOSE_PROJECT_NAME environment variable.
+Compose uses the project name to create unique identifiers for all of a project‚Äôs containers and other resources. To run multiple copies of a project, set a custom project name using the -p command line option or theCOMPOSE_PROJECT_NAME environment variable.
 
 Docker Container Interview Questions
-Whatís the difference between up, run, and start?
+What‚Äôs the difference between up, run, and start?
 
-Typically, you want docker-compose up. Use up to start or restart all the services defined in a docker-compose.yml. In the default ìattachedî mode, youíll see all the logs from all the containers. In ìdetachedî mode (-d), Compose exits after starting the containers, but the containers continue to run in the background.
+Typically, you want docker-compose up. Use up to start or restart all the services defined in a docker-compose.yml. In the default ‚Äúattached‚Äù mode, you‚Äôll see all the logs from all the containers. In ‚Äúdetached‚Äù mode (-d), Compose exits after starting the containers, but the containers continue to run in the background.
 
-The docker-compose run command is for running ìone-offî or ìad-hocî tasks. It requires the service name you want to run and only starts containers for services that the running service depends on. Use run to run tests or perform an administrative task such as removing or adding data to a data volume container. The run command acts like docker run -ti in that it opens an interactive terminal to the container and returns an exit status matching the exit status of the process in the container.
+The docker-compose run command is for running ‚Äúone-off‚Äù or ‚Äúad-hoc‚Äù tasks. It requires the service name you want to run and only starts containers for services that the running service depends on. Use run to run tests or perform an administrative task such as removing or adding data to a data volume container. The run command acts like docker run -ti in that it opens an interactive terminal to the container and returns an exit status matching the exit status of the process in the container.
 
 The docker-compose start command is useful only to restart containers that were previously created but were stopped. It never creates new containers.
 
 What is the base image required to build a Docker container?
 
-The base image depends on the tool or script. You can pursue available images by searching Docker Hub for the domain (e.g., ìbiologyî, ìscienceî) and read the documentation for specific images.
+The base image depends on the tool or script. You can pursue available images by searching Docker Hub for the domain (e.g., ‚Äúbiology‚Äù, ‚Äúscience‚Äù) and read the documentation for specific images.
 
 Most frequently used CyVerse base images:
 
@@ -212,11 +212,11 @@ docker-compose -f docker-compose.json up
 
 Should I include my code with COPY/ADD or a volume?
 
-You can add your code to the image using COPY or ADD directive in a Dockerfile. This is useful if you need to relocate your code along with the Docker image, for example when youíre sending the code to another environment (production, CI, etc).
+You can add your code to the image using COPY or ADD directive in a Dockerfile. This is useful if you need to relocate your code along with the Docker image, for example when you‚Äôre sending the code to another environment (production, CI, etc).
 
-You should use a volume if you want to make changes to your code and see them reflected immediately, for example when youíre developing code and your server supports hot code reloading or live-reload.
+You should use a volume if you want to make changes to your code and see them reflected immediately, for example when you‚Äôre developing code and your server supports hot code reloading or live-reload.
 
-There may be cases where youíll want to use both. You can have the image include the code using a COPY, and use a volume in your Compose file to include the code from the host during development. The volume overrides the directory contents of the image.
+There may be cases where you‚Äôll want to use both. You can have the image include the code using a COPY, and use a volume in your Compose file to include the code from the host during development. The volume overrides the directory contents of the image.
 
 Where can I find example compose files?
 
@@ -232,22 +232,22 @@ Command line reference
 Compose file reference
 Are you operationally prepared to manage multiple languages/libraries/repositories?
 
-Last year, we encountered an organization that developed a modular application while allowing developers to ìuse what they wantî to build individual components. It was a nice concept but a total organizational nightmare ó chasing the ideal of modular design without considering the impact of this complexity on their operations.
+Last year, we encountered an organization that developed a modular application while allowing developers to ‚Äúuse what they want‚Äù to build individual components. It was a nice concept but a total organizational nightmare ‚Äî chasing the ideal of modular design without considering the impact of this complexity on their operations.
 
-The organization was then interested in Docker to help facilitate deployments, but we strongly recommended that this organization not use Docker before addressing the root issues. Making it easier to deploy these disparate applications wouldnít be an antidote to the difficulties of maintaining several different development stacks for long-term maintenance of these apps.
+The organization was then interested in Docker to help facilitate deployments, but we strongly recommended that this organization not use Docker before addressing the root issues. Making it easier to deploy these disparate applications wouldn‚Äôt be an antidote to the difficulties of maintaining several different development stacks for long-term maintenance of these apps.
 
 Do you already have a logging, monitoring, or mature deployment solution?
 
 Chances are that your application already has a framework for shipping logs and backing up data to the right places at the right times. To implement Docker, you not only need to replicate the logging behavior you expect in your virtual machine environment, but you also need to prepare your compliance or governance team for these changes. New tools are entering the Docker space all the time, but many do not match the stability and maturity of existing solutions. Partial updates, rollbacks, and other common deployment tasks may need to be re-engineered to accommodate a containerized deployment.
 
-If itís not broken, donít fix it. If youíve already invested the engineering time required to build a continuous integration/continuous delivery (CI/CD) pipeline, containerizing legacy apps may not be worth the time investment.
+If it‚Äôs not broken, don‚Äôt fix it. If you‚Äôve already invested the engineering time required to build a continuous integration/continuous delivery (CI/CD) pipeline, containerizing legacy apps may not be worth the time investment.
 
 Docker Questions And Answers
 Will cloud automation overtake containerization?
 
-At AWS Re:Invent last month, Amazon chief technology officer Werner Vogels spent a significant portion of his keynote on AWS Lambda, an automation tool that deploys infrastructure based on your code. While Vogels did mention AWSí container service, his focus on Lambda implies that he believes dealing with zero infrastructure is preferable to configuring and deploying containers for most developers.
+At AWS Re:Invent last month, Amazon chief technology officer Werner Vogels spent a significant portion of his keynote on AWS Lambda, an automation tool that deploys infrastructure based on your code. While Vogels did mention AWS‚Äô container service, his focus on Lambda implies that he believes dealing with zero infrastructure is preferable to configuring and deploying containers for most developers.
 
-Containers are rapidly gaining popularity in the enterprise, and are sure to be an essential part of many professional CI/CD pipelines. But as technology experts and CTOs, it is our responsibility to challenge new methodologies and services and properly weigh the risks of early adoption. I believe Docker can be extremely effective for organizations that understand the consequences of containerization ó but only if you ask the right questions.
+Containers are rapidly gaining popularity in the enterprise, and are sure to be an essential part of many professional CI/CD pipelines. But as technology experts and CTOs, it is our responsibility to challenge new methodologies and services and properly weigh the risks of early adoption. I believe Docker can be extremely effective for organizations that understand the consequences of containerization ‚Äî but only if you ask the right questions.
 
 You say that Ansible can take up to 20x longer to provision, but why?
 
@@ -318,5 +318,5 @@ Commit	Creates new images from Container changes
 Attach	Attaches to a running container
 Load	Load an image from STDIN or tar archive
 Create	Create a new container
-Diff	Inspect changes on a containerís file system
+Diff	Inspect changes on a container‚Äôs file system
 Kill	Kill a running container
